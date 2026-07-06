@@ -1,66 +1,116 @@
-<<<<<<< HEAD
-# Route Planning Project
+# Route Finder
 
-This repo contains the starter code for the Route Planning project.
+## Overview
 
-<img src="map.png" width="600" height="450" />
+Route Finder is a graph-based pathfinding application that computes the shortest route between two locations using the **A*** search algorithm. The project uses real-world road network data extracted from **OpenStreetMap** with **OSMnx**, preprocesses the data in Python, and performs route computation using **SWI-Prolog**.
 
-## Cloning
+The implementation demonstrates the complete workflow of transforming geographic data into a graph representation and applying heuristic search to determine the optimal path.
 
-When cloning this project, be sure to use the `--recurse-submodules` flag. Using HTTPS:
-```
-git clone https://github.com/udacity/CppND-Route-Planning-Project.git --recurse-submodules
-```
-or with SSH:
-```
-git clone git@github.com:udacity/CppND-Route-Planning-Project.git --recurse-submodules
-```
+---
 
-## Dependencies for Running Locally
-* cmake >= 3.11.3
-  * All OSes: [click here for installation instructions](https://cmake.org/install/)
-* make >= 4.1 (Linux, Mac), 3.81 (Windows)
-  * Linux: make is installed by default on most Linux distros
-  * Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
-  * Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm)
-* gcc/g++ >= 7.4.0
-  * Linux: gcc / g++ is installed by default on most Linux distros
-  * Mac: same instructions as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
-  * Windows: recommend using [MinGW](http://www.mingw.org/)
-* IO2D
-  * Installation instructions for all operating systems can be found [here](https://github.com/cpp-io2d/P0267_RefImpl/blob/master/BUILDING.md)
-  * This library must be built in a place where CMake `find_package` will be able to find it
+## Technologies Used
 
-## Compiling and Running
+* Python
+* SWI-Prolog
+* OSMnx
+* NetworkX
+* Pandas
 
-### Compiling
-To compile the project, first, create a `build` directory and change to that directory:
-```
-mkdir build && cd build
-```
-From within the `build` directory, then run `cmake` and `make` as follows:
-```
-cmake ..
-make
-```
-### Running
-The executable will be placed in the `build` directory. From within `build`, you can run the project as follows:
-```
-./OSM_A_star_search
-```
-Or to specify a map file:
-```
-./OSM_A_star_search -f ../<your_osm_file.osm>
+---
+
+## Project Workflow
+
+1. Define the target region (Chembur, Mumbai).
+2. Extract the road network from OpenStreetMap using OSMnx.
+3. Preprocess and clean node and edge data.
+4. Export the processed graph into CSV files.
+5. Load the graph into SWI-Prolog.
+6. Execute the A* search algorithm.
+7. Reconstruct the shortest path.
+8. Export the computed route to `path.csv`.
+
+---
+
+## Project Structure
+
+```text
+Route_Finder/
+│── City_Graph.py
+│── loader.pl
+│── astar.pl
+│── chembur_nodes.csv
+│── chembur_edges.csv
+│── prolog_nodes.csv
+│── prolog_edges.csv
+│── path.csv
+│── README.md
 ```
 
-## Testing
+---
 
-The testing executable is also placed in the `build` directory. From within `build`, you can run the unit tests as follows:
-```
-./test
+## Algorithm
+
+The project implements the **A*** search algorithm.
+
+For each node:
+
+* **g(n)** represents the distance travelled from the source.
+* **h(n)** estimates the remaining distance to the destination using the Euclidean heuristic.
+* **f(n) = g(n) + h(n)** determines the next node to explore.
+
+The algorithm terminates once the destination is reached and reconstructs the optimal path.
+
+---
+
+## Running the Project
+
+### Prerequisites
+
+* Python 3.x
+* SWI-Prolog
+
+### Install Dependencies
+
+```bash
+pip install osmnx networkx pandas matplotlib
 ```
 
-=======
-# Route_Finder
-Route_Finder is an intelligent route-finding application that implements the A* pathfinding algorithm on real-world OpenStreetMap data. It combines Python (OSMnx) for road network extraction, SWI-Prolog for heuristic-based shortest path computation, and Blender for interactive 3D visualization of the search process and optimal route.
->>>>>>> c0cd5e4ed981062cf741c00f510ac995ecd8570e
+### Generate Graph Data
+
+```bash
+python City_Graph.py
+```
+
+### Load the Graph
+
+Inside SWI-Prolog:
+
+```prolog
+?- [loader].
+```
+
+Run the A* query by specifying the required source and destination nodes.
+
+---
+
+## Output
+
+The computed shortest path is exported as `path.csv`, containing the sequence of nodes representing the optimal route.
+
+---
+
+## Future Improvements
+
+* Interactive user interface
+* Map-based visualization
+* Support for multiple routing algorithms
+* Traffic-aware route planning
+* Turn-by-turn navigation
+
+---
+
+## Author
+
+**Shreyansh Verma**
+
+GitHub: https://github.com/shreyanshverma498-sudo
